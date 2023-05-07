@@ -1,35 +1,39 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
+
 function App() {
-  const [count, setCount] = useState(0)
+  let [films, setFilms] = useState([]);
+
+  const getFilms = () => {
+    fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=7c3d5af7d049ad0656688c01e6f47e64`)
+    .then(response => response.json())
+      .then(films => {
+        setFilms(films);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+ <div className="main"> 
+ <h1>Good Films</h1>
+
+ <button>Search</button>
+ <button>My Films</button>
+ <h2>Search Films</h2>
+ <input type="text"></input>
+ <button>Go!</button>
+ </div>
+
+
+
+  );
 }
+
+
 
 export default App
