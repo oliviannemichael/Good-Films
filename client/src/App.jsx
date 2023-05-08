@@ -34,29 +34,6 @@ function App() {
       });
   };
 
-  // async function addFilms(search) {
-  //   let options = {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(search),
-  //   };
-  //   try {
-  //     let response = await fetch(
-  //       `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=7c3d5af7d049ad0656688c01e6f47e64`,
-  //       options
-  //     );
-  //     if (response.ok) {
-  //       let search = await response.json(); // converts JSON to JavaScript for client/frontend
-  //       setSearch(search);
-  //     } else {
-  //       // server error
-  //       console.log(`Server error: ${response.status} ${response.statusText}`);
-  //     }
-  //   } catch (err) {
-  //     console.log(`Network error: ${err.message}`);
-  //   }
-  // }
-
   return (
     <div className="main">
       {/* A form to search for films and add them to list */}
@@ -70,6 +47,14 @@ function App() {
         <input type="text" value={filmId} onChange={handleInput}></input>
         {/* Button to submit fim id to API and display on page */}
         <button onClick={handleClick}>Go!</button>
+
+        {/* display movie details after search */}
+        <div>{movieDetails.title}</div>
+        {/* how can I display genres? object within an object */}
+        <div>{movieDetails.tagline}</div>
+        <div>{movieDetails.overview}</div>
+
+    
       </form>
     </div>
   );
