@@ -1,9 +1,12 @@
 import { useState } from "react";
 import "./App.css";
+// import MovieStatus from "./components/MovieStatus";
 
 function App() {
   let [filmId, setFilmId] = useState("");
   let [movieDetails, setMovieDetails] = useState({});
+  let [show, setShow] = useState(false);
+
 
   // input box
   const handleInput = (event) => {
@@ -19,6 +22,8 @@ function App() {
     getFilms(filmId);
   };
 
+
+
   // fetching API
   const getFilms = (id) => {
     fetch(
@@ -32,6 +37,7 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
+      setShow(!show);
   };
 
   return (
@@ -46,16 +52,23 @@ function App() {
         <h2>Search Films</h2>
         <input type="text" value={filmId} onChange={handleInput}></input>
         {/* Button to submit fim id to API and display on page */}
-        <button onClick={handleClick}>Go!</button>
+        <button onClick={handleClick}>Search IMDB movie ID!</button>
 
         {/* display movie details after search */}
+        {/* how do I display image from object? */}
+        <img src={movieDetails.backdrop_path} />
         <div>{movieDetails.title}</div>
         {/* how can I display genres? object within an object */}
         <div>{movieDetails.tagline}</div>
         <div>{movieDetails.overview}</div>
+        <div>{movieDetails.runtime}</div>
 
-    
+{/* conditionally rendered buttons to save film to to different lists */}
+       { show ? <button>Want to watch</button> : null}
+       { show ? <button>Watched</button> : null}
       </form>
+
+      {/* <MovieStatus/> */}
     </div>
   );
 }
