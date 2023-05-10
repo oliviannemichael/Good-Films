@@ -7,7 +7,6 @@ function App() {
   let [movieDetails, setMovieDetails] = useState({});
   let [show, setShow] = useState(false);
 
-
   // input box
   const handleInput = (event) => {
     const name = event.target.name;
@@ -22,8 +21,6 @@ function App() {
     getFilms(filmId);
   };
 
-
-
   // fetching API
   const getFilms = (id) => {
     fetch(
@@ -37,7 +34,28 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
-      setShow(!show);
+    // conditionally rendering button
+    setShow(!show);
+  };
+
+  const addWatchList = async () => {
+    console.log("added");
+    let options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: movieDetails.imdb_id }),
+    };
+    try {
+      let response = await fetch("/api/movies", options);
+      if (response.ok) {
+        await response.json(); // converts JSON to JavaScript for client/frontend
+      } else {
+        // server error
+        console.log(`Server error: ${response.status} ${response.statusText}`);
+      }
+    } catch (err) {
+      console.log(`Network error: ${err.message}`);
+    }
   };
 
   return (
@@ -61,11 +79,12 @@ function App() {
         {/* how can I display genres? object within an object */}
         <div>{movieDetails.tagline}</div>
         <div>{movieDetails.overview}</div>
+        <div>{movieDetails.vote_average}</div>
         <div>{movieDetails.runtime}</div>
 
-{/* conditionally rendered buttons to save film to to different lists */}
-       { show ? <button>Want to watch</button> : null}
-       { show ? <button>Watched</button> : null}
+        {/* conditionally rendered buttons to save film to to different lists */}
+        {show ? <button onClick={addWatchList}>Want to watch</button> : null}
+        {show ? <button>Watched</button> : null}
       </form>
 
       {/* <MovieStatus/> */}
@@ -74,3 +93,11 @@ function App() {
 }
 
 export default App;
+
+// PAIN POINTS
+
+// how do i render image from film object?
+
+// "my films" page. need help making a road map for that
+
+// my_films DB
