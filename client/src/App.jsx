@@ -59,18 +59,35 @@ function App() {
   };
 
   return (
-    <div className="main">
+    <div>
       {/* A form to search for films and add them to list */}
       <form>
-        <h1>Good Films</h1>
-        {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
-        <button>Search</button>
-        <button>My Films</button>
+        <nav className="navbar bg-body-tertiary">
+          <div className="container-fluid">
+            <a className="navbar-brand">Good Films</a>
+            <form class="d-flex" role="search">
+              {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
+              <button type="button" className="btn btn-outline-secondary">
+                Search
+              </button>
+              <button type="button" className="btn btn-outline-secondary">
+                My Films
+              </button>
+            </form>
+          </div>
+        </nav>
+
         {/* One input, search by film id */}
-        <h2>Search Films</h2>
+        <h6>Search Films</h6>
         <input type="text" value={filmId} onChange={handleInput}></input>
         {/* Button to submit fim id to API and display on page */}
-        <button onClick={handleClick}>Search IMDB movie ID!</button>
+        <button
+          onClick={handleClick}
+          type="button"
+          className="btn btn-outline-secondary"
+        >
+          Search IMDB movie ID!
+        </button>
 
         {/* display movie details after search */}
         {/* how do I display image from object? */}
@@ -83,11 +100,21 @@ function App() {
         <div>{movieDetails.runtime}</div>
 
         {/* conditionally rendered buttons to save film to to different lists */}
-        {show ? <button onClick={addWatchList}>Want to watch</button> : null}
-        {show ? <button>Watched</button> : null}
+        {show ? (
+          <button
+            onClick={addWatchList}
+            type="button"
+            className="btn btn-outline-secondary"
+          >
+            Want to watch
+          </button>
+        ) : null}
+        {show ? (
+          <button type="button" className="btn btn-outline-secondary">
+            Watched
+          </button>
+        ) : null}
       </form>
-
-      {/* <MovieStatus/> */}
     </div>
   );
 }
