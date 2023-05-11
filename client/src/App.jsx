@@ -65,7 +65,7 @@ function App() {
         <nav className="navbar bg-body-tertiary">
           <div className="container-fluid">
             <a className="navbar-brand">Good Films</a>
-            <form class="d-flex" role="search">
+            <form className="d-flex" role="search">
               {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
               <button type="button" className="btn btn-outline-secondary">
                 Search
@@ -78,7 +78,13 @@ function App() {
         </nav>
 
         {/* One input, search by film id */}
-        <h6>Search Films</h6>
+        <div class="container text-center">
+  <div class="row align-items-start">
+    <div class="col">
+    
+    </div>
+    <div class="col">
+    <h6>Search Films</h6>
         <input type="text" value={filmId} onChange={handleInput}></input>
         {/* Button to submit fim id to API and display on page */}
         <button
@@ -88,6 +94,12 @@ function App() {
         >
           Search IMDB movie ID!
         </button>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+</div>
+        
 
         {/* display movie details after search */}
         {/* how do I display image from object? */}
