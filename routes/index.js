@@ -9,7 +9,7 @@ router.get("/", function (req, res, next) {
 });
 
 // SAVE a film into db
-router.post("/api/movies", function (req, res, next) {
+router.post("api/movies", function (req, res, next) {
   let imdbFilmId = req.body.id;
   console.log(imdbFilmId);
   db(`insert INTO my_films (imdb_film_id) VALUES ("${imdbFilmId};")`)

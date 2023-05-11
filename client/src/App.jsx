@@ -46,7 +46,7 @@ function App() {
       body: JSON.stringify({ id: movieDetails.imdb_id }),
     };
     try {
-      let response = await fetch("/api/movies", options);
+      let response = await fetch("api/movies", options);
       if (response.ok) {
         await response.json(); // converts JSON to JavaScript for client/frontend
       } else {
@@ -59,74 +59,70 @@ function App() {
   };
 
   return (
-    <div>
-      {/* A form to search for films and add them to list */}
-      <form>
-        <nav className="navbar bg-body-tertiary">
-          <div className="container-fluid">
-            <a className="navbar-brand">Good Films</a>
-            <form className="d-flex" role="search">
-              {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
-              <button type="button" className="btn btn-outline-secondary">
-                Search
-              </button>
-              <button type="button" className="btn btn-outline-secondary">
-                My Films
-              </button>
-            </form>
+    <div className="font">
+      <nav className="navbar bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand">Good Films</a>
+          <form className="d-flex" role="search">
+            {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
+
+            <button type="button" className="btn btn-outline-secondary">
+              Search
+            </button>
+            <button type="button" className="btn btn-outline-secondary">
+              My Films
+            </button>
+          </form>
+        </div>
+      </nav>
+
+      {/* One input, search by film id */}
+      <div className="container text-center">
+        <div className="row align-items-start">
+          <div className="col"></div>
+
+          <div className="col">
+            <h6>Search Films</h6>
+            <input type="text" value={filmId} onChange={handleInput}></input>
+            {/* Button to submit fim id to API and display on page */}
+            <button
+              onClick={handleClick}
+              type="button"
+              className="btn btn-outline-secondary"
+            >
+              Search IMDB movie ID!
+            </button>
           </div>
-        </nav>
+          <div className="col"></div>
+        </div>
+      </div>
 
-        {/* One input, search by film id */}
-        <div class="container text-center">
-  <div class="row align-items-start">
-    <div class="col">
-    
-    </div>
-    <div class="col">
-    <h6>Search Films</h6>
-        <input type="text" value={filmId} onChange={handleInput}></input>
-        {/* Button to submit fim id to API and display on page */}
-        <button
-          onClick={handleClick}
-          type="button"
-          className="btn btn-outline-secondary"
-        >
-          Search IMDB movie ID!
-        </button>
-    </div>
-    <div class="col">
-    </div>
-  </div>
-</div>
-        
+      {/* card to display movie details after search */}
 
-        {/* display movie details after search */}
-        {/* how do I display image from object? */}
-        <img src={movieDetails.backdrop_path} />
-        <div>{movieDetails.title}</div>
-        {/* how can I display genres? object within an object */}
-        <div>{movieDetails.tagline}</div>
-        <div>{movieDetails.overview}</div>
-        <div>{movieDetails.vote_average}</div>
-        <div>{movieDetails.runtime}</div>
-
-        {/* conditionally rendered buttons to save film to to different lists */}
-        {show ? (
-          <button
-            onClick={addWatchList}
-            type="button"
-            className="btn btn-outline-secondary"
-          >
-            Want to watch
-          </button>
-        ) : null}
-        {show ? (
-          <button type="button" className="btn btn-outline-secondary">
-            Watched
-          </button>
-        ) : null}
-      </form>
+      {/* how do I display image from object? */}
+      <div className="card">
+        <img src={movieDetails.backdrop_path} className="card-img-top" />
+        <div className="card-body">
+          <h5 className="card-title">{movieDetails.title}</h5>
+          <p className="card-text">{movieDetails.tagline}</p>
+          <p className="card-text">{movieDetails.overview}</p>
+          <p className="card-text">{movieDetails.vote_average}</p>
+          <p className="card-text">{movieDetails.runtime}</p>
+          <a>
+            {" "}
+            {/* conditionally render button when movie data is submitted */}
+            {show ? (
+              <button
+                onClick={addWatchList}
+                type="button"
+                className="btn btn-outline-secondary"
+              >
+                Add to my films
+              </button>
+            ) : null}
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
