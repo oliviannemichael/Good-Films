@@ -43,12 +43,13 @@ function App() {
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: movieDetails.imdb_id }),
+      body: JSON.stringify({ name: movieDetails.title, url: movieDetails.poster_path, id: movieDetails.imdb_id }),
     };
     try {
-      let response = await fetch("api/movies", options);
+      let response = await fetch("/api", options);
       if (response.ok) {
         await response.json(); // converts JSON to JavaScript for client/frontend
+        console.log(response);
       } else {
         // server error
         console.log(`Server error: ${response.status} ${response.statusText}`);
@@ -100,8 +101,8 @@ function App() {
       {/* card to display movie details after search */}
 
       {/* how do I display image from object? */}
-      <div className="card">
-        <img src={movieDetails.backdrop_path} className="card-img-top" />
+      {/* <div className="card"> */}
+        <img src={movieDetails.poster_path} className="card-img-top" />
         <div className="card-body">
           <h5 className="card-title">{movieDetails.title}</h5>
           <p className="card-text">{movieDetails.tagline}</p>
@@ -123,7 +124,7 @@ function App() {
           </a>
         </div>
       </div>
-    </div>
+    // </div>
   );
 }
 
