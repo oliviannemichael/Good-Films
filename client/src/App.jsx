@@ -1,11 +1,13 @@
-import { useState } from "react";
 import "./App.css";
+import { useEffect, useState } from "react";
 // import MovieStatus from "./components/MovieStatus";
 
 function App() {
   let [filmId, setFilmId] = useState("");
   let [movieDetails, setMovieDetails] = useState({});
   let [show, setShow] = useState(false);
+  // saving backend
+  let [myFilms, setMyFilms] = useState([{ title: "", url: "" }]);
 
   // input box
   const handleInput = (event) => {
@@ -43,13 +45,16 @@ function App() {
     let options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: movieDetails.title, url: movieDetails.poster_path, id: movieDetails.imdb_id }),
+      body: JSON.stringify({
+        name: movieDetails.title,
+        url: movieDetails.poster_path,
+        id: movieDetails.imdb_id,
+      }),
     };
     try {
       let response = await fetch("/api", options);
       if (response.ok) {
         await response.json(); // converts JSON to JavaScript for client/frontend
-        console.log(response);
       } else {
         // server error
         console.log(`Server error: ${response.status} ${response.statusText}`);
@@ -59,6 +64,23 @@ function App() {
     }
   };
 
+  // use to render data from fetch
+  useEffect(() => {
+    getMyFilms();
+  }, []);
+
+  // fetching my films from backend
+  const getMyFilms = () => {
+    fetch("/api")
+      .then((response) => response.json())
+      .then((myFilms) => {
+        setMyFilms(myFilms);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="font">
       <nav className="navbar bg-body-tertiary">
@@ -66,7 +88,6 @@ function App() {
           <a className="navbar-brand">Good Films</a>
           <form className="d-flex" role="search">
             {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
-
             <button type="button" className="btn btn-outline-secondary">
               Search
             </button>
@@ -99,32 +120,39 @@ function App() {
       </div>
 
       {/* card to display movie details after search */}
-
       {/* how do I display image from object? */}
       {/* <div className="card"> */}
-        <img src={movieDetails.poster_path} className="card-img-top" />
-        <div className="card-body">
-          <h5 className="card-title">{movieDetails.title}</h5>
-          <p className="card-text">{movieDetails.tagline}</p>
-          <p className="card-text">{movieDetails.overview}</p>
-          <p className="card-text">{movieDetails.vote_average}</p>
-          <p className="card-text">{movieDetails.runtime}</p>
-          <a>
-            {" "}
-            {/* conditionally render button when movie data is submitted */}
-            {show ? (
-              <button
-                onClick={addWatchList}
-                type="button"
-                className="btn btn-outline-secondary"
-              >
-                Add to my films
-              </button>
-            ) : null}
-          </a>
-        </div>
+      <img src={movieDetails.poster_path} className="card-img-top" />
+      <div className="card-body">
+        <h5 className="card-title">{movieDetails.title}</h5>
+        <p className="card-text">{movieDetails.tagline}</p>
+        <p className="card-text">{movieDetails.overview}</p>
+        <p className="card-text">{movieDetails.vote_average}</p>
+        <p className="card-text">{movieDetails.runtime}</p>
+        <a>
+          {" "}
+          {/* conditionally render button when movie data is submitted */}
+          {show ? (
+            <button
+              onClick={addWatchList}
+              type="button"
+              className="btn btn-outline-secondary"
+            >
+              Add to my films
+            </button>
+          ) : null}
+        </a>
+        {/* return film db */}
+        {myFilms.map((myFilm) => {
+          return (
+            <div key={myFilm.title}>
+              <p>{myFilms.title}</p>
+              <p>{myFilms.url}</p>
+            </div>
+          );
+        })}
       </div>
-    // </div>
+    </div>
   );
 }
 
@@ -133,7 +161,3 @@ export default App;
 // PAIN POINTS
 
 // how do i render image from film object?
-
-// "my films" page. need help making a road map for that
-
-// my_films DB
