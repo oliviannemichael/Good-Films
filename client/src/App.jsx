@@ -83,10 +83,11 @@ function App() {
   };
 
   return (
+    <div className= "margin">
     <div className="font">
       <nav className="navbar bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand">Good Films</a>
+          <a className="navbar-brand"><h1>Good Films 🎬</h1></a>
           <form className="d-flex" role="search">
             {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
             <button type="button" className="btn btn-outline-secondary">
@@ -105,7 +106,7 @@ function App() {
           <div className="col"></div>
 
           <div className="col">
-            <h6>Search Films</h6>
+            <h5>Search Films</h5>
             <input type="text" value={filmId} onChange={handleInput}></input>
             {/* Button to submit fim id to API and display on page */}
             <button
@@ -142,17 +143,34 @@ function App() {
               Add to my films
             </button>
           ) : null}
-        </a>
+
+         
+        </a><br></br>
+        <div class="container text-center">
+  <div class="row align-items-start">
+    <div class="col">
+    </div>
+    <div class="col">
+     <h5>My Films</h5> 
+    </div>
+    <div class="col">
+      
+    </div>
+  </div>
+</div>
+            
         {/* return film db */}
         {myFilms.map((myFilm) => {
           return (
             <div key={myFilm.id}>
-              <p>{myFilms.film_name}</p>
-              <p>{myFilms.image_url}</p>
+              <p>{myFilm.image_url}</p>
+              <p>{myFilm.film_name}</p>
             </div>
           );
         })}
       </div>
+      
+    </div>
     </div>
   );
 }
