@@ -7,7 +7,7 @@ function App() {
   let [movieDetails, setMovieDetails] = useState({});
   let [show, setShow] = useState(false);
   // saving backend
-  let [myFilms, setMyFilms] = useState([{ title: "", url: "" }]);
+  let [myFilms, setMyFilms] = useState([{ id: "", film_name: "", status: "", image_url: "", imdb_film_id: ""}]);
 
   // input box
   const handleInput = (event) => {
@@ -74,6 +74,7 @@ function App() {
     fetch("/api")
       .then((response) => response.json())
       .then((myFilms) => {
+        // console.log(myFilms);
         setMyFilms(myFilms);
       })
       .catch((error) => {
@@ -145,9 +146,9 @@ function App() {
         {/* return film db */}
         {myFilms.map((myFilm) => {
           return (
-            <div key={myFilm.title}>
-              <p>{myFilms.title}</p>
-              <p>{myFilms.url}</p>
+            <div key={myFilm.id}>
+              <p>{myFilms.film_name}</p>
+              <p>{myFilms.image_url}</p>
             </div>
           );
         })}
