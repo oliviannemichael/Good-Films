@@ -1,13 +1,15 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-// import MovieStatus from "./components/MovieStatus";
+
 
 function App() {
   let [filmId, setFilmId] = useState("");
   let [movieDetails, setMovieDetails] = useState({});
   let [show, setShow] = useState(false);
   // saving backend
-  let [myFilms, setMyFilms] = useState([{ id: "", film_name: "", status: "", image_url: "", imdb_film_id: ""}]);
+  let [myFilms, setMyFilms] = useState([
+    { id: "", film_name: "", status: "", image_url: "", imdb_film_id: "" },
+  ]);
 
   // input box
   const handleInput = (event) => {
@@ -83,100 +85,106 @@ function App() {
   };
 
   return (
-    <div className= "margin">
-    <div className="font">
-      <nav className="navbar bg-body-tertiary">
-        <div className="container-fluid">
-          <a className="navbar-brand"><h1>Good Films 🎬</h1></a>
-          <form className="d-flex" role="search">
-            {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
-            <button type="button" className="btn btn-outline-secondary">
-              Search
-            </button>
-            <button type="button" className="btn btn-outline-secondary">
-              My Films
-            </button>
-          </form>
-        </div>
-      </nav>
-
-      {/* One input, search by film id */}
-      <div className="container text-center">
-        <div className="row align-items-start">
-          <div className="col"></div>
-
-          <div className="col">
-            <h5>Search Films</h5>
-            <input type="text" value={filmId} onChange={handleInput}></input>
-            {/* Button to submit fim id to API and display on page */}
-            <button
-              onClick={handleClick}
-              type="button"
-              className="btn btn-outline-secondary"
-            >
-              Search IMDB movie ID!
-            </button>
+    <div className="margin">
+      <div className="font">
+        <nav className="navbar bg-body-tertiary">
+          <div className="container-fluid">
+            <a className="navbar-brand">
+              <h1>Good Films 🎬</h1>
+            </a>
+            <form className="d-flex" role="search">
+              {/* Two buttons- one to bring you to search page and other to bring you to my films  */}
+              {/* <button type="button" className="btn btn-outline-secondary">
+                Search
+              </button>
+              <button type="button" className="btn btn-outline-secondary">
+                My Films
+              </button> */}
+            </form>
           </div>
-          <div className="col"></div>
+        </nav>
+
+        {/* One input, search by film id */}
+        <div className="container text-center">
+          <div className="row align-items-start">
+            <div className="col"></div>
+
+            <div className="col">
+              <h5 className="searchFilms">Search Films</h5>
+              <input
+                className="searchInput"
+                type="text"
+                value={filmId}
+                onChange={handleInput}
+              ></input>
+              {/* Button to submit fim id to API and display on page */}
+              <button
+                onClick={handleClick}
+                type="button"
+                className="btn btn-outline-secondary"
+              >
+                Search IMDB movie ID!
+              </button>
+            </div>
+            <div className="col"></div>
+          </div>
+        </div>
+
+        {/* card to display movie details after search */}
+        {/* how do I display image from object? */}
+
+        <div className="card" style={{width: '18rem'}}>
+        <img
+          src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path}
+          className="card-img-top"
+        />
+        <div className="card-body">
+          <h5 className="card-title">{movieDetails.title}</h5>
+          <p className="card-text">{movieDetails.tagline}</p>
+          <p className="card-text">{movieDetails.overview}</p>
+          <p className="card-text">{movieDetails.vote_average}</p>
+          <p className="card-text">{movieDetails.runtime}</p>
+          <a>
+            {" "}
+            {/* conditionally render button when movie data is submitted */}
+            {show ? (
+              <button
+                onClick={addWatchList}
+                type="button"
+                className="btn btn-outline-secondary"
+              >
+                Add to my films
+              </button>
+            ) : null}
+          </a>
+         <br></br>
+          <div className="container text-center">
+            <div className="row align-items-start">
+              <div className="col"></div>
+              <div className="col">
+                <h5 className="watchedFilms">Watched Films</h5>
+              </div>
+              <div className="col"></div>
+            </div>
+          </div>
+
+          {/* return film db */}
+          {myFilms.map((myFilm) => {
+            return (
+
+              
+              <div key={myFilm.id}>
+                <img
+                  src={"https://image.tmdb.org/t/p/w500" + myFilm.image_url}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
-
-      {/* card to display movie details after search */}
-      {/* how do I display image from object? */}
-      {/* <div className="card"> */}
-      <img src={movieDetails.poster_path} className="card-img-top" />
-      <div className="card-body">
-        <h5 className="card-title">{movieDetails.title}</h5>
-        <p className="card-text">{movieDetails.tagline}</p>
-        <p className="card-text">{movieDetails.overview}</p>
-        <p className="card-text">{movieDetails.vote_average}</p>
-        <p className="card-text">{movieDetails.runtime}</p>
-        <a>
-          {" "}
-          {/* conditionally render button when movie data is submitted */}
-          {show ? (
-            <button
-              onClick={addWatchList}
-              type="button"
-              className="btn btn-outline-secondary"
-            >
-              Add to my films
-            </button>
-          ) : null}
-
-         
-        </a><br></br>
-        <div class="container text-center">
-  <div class="row align-items-start">
-    <div class="col">
     </div>
-    <div class="col">
-     <h5>My Films</h5> 
-    </div>
-    <div class="col">
-      
-    </div>
-  </div>
-</div>
-            
-        {/* return film db */}
-        {myFilms.map((myFilm) => {
-          return (
-            <div key={myFilm.id}>
-              <p>{myFilm.image_url}</p>
-              <p>{myFilm.film_name}</p>
-            </div>
-          );
-        })}
-      </div>
-      
-    </div>
-    </div>
+    // </div>
   );
 }
 
 export default App;
-
-// PAIN POINTS
-
-// how do i render image from film object?
