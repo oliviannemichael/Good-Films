@@ -1,7 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 
-
 function App() {
   let [filmId, setFilmId] = useState("");
   let [movieDetails, setMovieDetails] = useState({});
@@ -56,7 +55,8 @@ function App() {
     try {
       let response = await fetch("/api", options);
       if (response.ok) {
-        await response.json(); // converts JSON to JavaScript for client/frontend
+       let movieData = await response.json(); // converts JSON to JavaScript for client/frontend
+       setMyFilms(movieData)
       } else {
         // server error
         console.log(`Server error: ${response.status} ${response.statusText}`);
@@ -104,19 +104,35 @@ function App() {
           </div>
         </nav>
 
-        {/* One input, search by film id */}
         <div className="container text-center">
-          <div className="row align-items-start">
+          <div className="row">
             <div className="col"></div>
-
             <div className="col">
               <h5 className="searchFilms">Search Films</h5>
+            </div>
+            <div className="col"></div>
+          </div>
+        </div>
+
+        <div className="container text-center">
+          <div className="row">
+            <div className="col"></div>
+            <div className="col">
+              {/* One input, search by film id */}
               <input
                 className="searchInput"
                 type="text"
                 value={filmId}
                 onChange={handleInput}
               ></input>
+            </div>
+            <div className="col"></div>
+          </div>
+        </div>
+
+        <div className="container text-center">
+          <div className="row">
+            <div className="col">
               {/* Button to submit fim id to API and display on page */}
               <button
                 onClick={handleClick}
@@ -126,64 +142,74 @@ function App() {
                 Search IMDB movie ID!
               </button>
             </div>
-            <div className="col"></div>
           </div>
+          <div className="col"></div>
+          <div className="col"></div>
         </div>
-
-        {/* card to display movie details after search */}
-        {/* how do I display image from object? */}
-
-        <div className="card" style={{width: '18rem'}}>
-        <img
-          src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path}
-          className="card-img-top"
-        />
-        <div className="card-body">
-          <h5 className="card-title">{movieDetails.title}</h5>
-          <p className="card-text">{movieDetails.tagline}</p>
-          <p className="card-text">{movieDetails.overview}</p>
-          <p className="card-text">{movieDetails.vote_average}</p>
-          <p className="card-text">{movieDetails.runtime}</p>
-          <a>
-            {" "}
-            {/* conditionally render button when movie data is submitted */}
-            {show ? (
-              <button
-                onClick={addWatchList}
-                type="button"
-                className="btn btn-outline-secondary"
-              >
-                Add to my films
-              </button>
-            ) : null}
-          </a>
-         <br></br>
-          <div className="container text-center">
-            <div className="row align-items-start">
-              <div className="col"></div>
-              <div className="col">
-                <h5 className="watchedFilms">Watched Films</h5>
-              </div>
-              <div className="col"></div>
-            </div>
-          </div>
-
-          {/* return film db */}
-          {myFilms.map((myFilm) => {
-            return (
-
-              
-              <div key={myFilm.id}>
+       
+        <div className="container text-center">
+          <div className="row">
+          {show ? (
+            <div className="col">
+              {/* card to display movie details after search */}
+              <div className="card" style={{ width: "25rem" }}>
                 <img
-                  src={"https://image.tmdb.org/t/p/w500" + myFilm.image_url}
+                  src={
+                    "https://image.tmdb.org/t/p/w500" + movieDetails.poster_path
+                  }
+                  className="card-img-top"
                 />
+                <div className="card-body">
+                  <h5 className="card-title">{movieDetails.title}</h5>
+                  <p className="card-text">{movieDetails.tagline}</p>
+                  <p className="card-text">{movieDetails.overview}</p>
+                  <p className="card-text">{movieDetails.vote_average}</p>
+                  <p className="card-text">{movieDetails.runtime}</p>
+                  <a>
+                    {" "}
+                    {/* conditionally render button when movie data is submitted */}
+                    
+                      <button
+                        onClick={addWatchList}
+                        type="button"
+                        className="btn btn-outline-secondary"
+                      >
+                        Add to my films
+                      </button>
+                    
+                  </a>
+                </div>
+                <div className="col"></div>
+                <div className="col"></div>
               </div>
-            );
-          })}
+            </div>
+            ) : null}
+
+            <h5 className="watchedFilms">Watched Films</h5>
+
+            {/* return film db */}
+            {myFilms.map((myFilm) => {
+              return (
+                <div key={myFilm.id}>
+                  <div className="card" style={{ width: "18rem" }}>
+                    <img
+                      src={"https://image.tmdb.org/t/p/w500" + myFilm.image_url}
+                      className="card-img-top"
+                      alt=""
+                    />
+                    <div className="card-body"></div>
+                  </div>
+
+                  {/* <img
+                    src={"https://image.tmdb.org/t/p/w500" + myFilm.image_url}
+                  /> */}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
-    // </div>
   );
 }
 
