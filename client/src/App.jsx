@@ -151,7 +151,7 @@ function App() {
           <div className="row">
           {show ? (
             <div className="col">
-              {/* card to display movie details after search */}
+               {/* conditionally render card when movie data is submitted */}
               <div className="card" style={{ width: "25rem" }}>
                 <img
                   src={
@@ -167,8 +167,6 @@ function App() {
                   <p className="card-text">{movieDetails.runtime}</p>
                   <a>
                     {" "}
-                    {/* conditionally render button when movie data is submitted */}
-                    
                       <button
                         onClick={addWatchList}
                         type="button"
