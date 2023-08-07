@@ -1,5 +1,5 @@
 require("dotenv").config();
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 module.exports = async function db(query) {
   const results = {
